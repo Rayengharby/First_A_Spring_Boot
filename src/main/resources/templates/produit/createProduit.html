@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"layout:decorator="template">
+	<link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<c:url value="/css/main.css" var="jstlCss" />
+<link href="${jstlCss}" rel="stylesheet" />
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<head>
+<meta charset="windows-1256">
+<title>Créer un Produit</title>
+</head>
+	<body>
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+<!-- Brand --> 
+<a class="navbar-brand" href="#">Gestion de produits</a>
+<!-- Links -->
+<ul class="navbar-nav">
+
+<!-- Dropdown -->
+<li class="nav-item dropdown">
+
+<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+Produits
+</a>
+<div class="dropdown-menu">
+<a class="dropdown-item" th:href="@{/showCreate}">Ajouter</a>
+<a class="dropdown-item" th:href="@{/ListeProduits}">Lister</a>
+</div>
+</li>
+</ul>
+
+</nav>
+	<div class="container">
+		<div class="card-body">
+			<form action="saveProduit" method="post">
+				<div class="form-group">
+					<label class="control-label"> Nom Produit :</label>
+					<input type="text" name="nomProduit" class="form-control" th:value="${produit.nomProduit}"/>
+                       <span th:errors=${produit.nomProduit} class="text-danger"> </span>
+				</div>
+				<div class="form-group">
+					<label class="control-label"> Prix Produit :</label>
+					<input type="text" name="prixProduit" class="form-control"th:value="${produit.prixProduit}" />
+                     <span th:errors=${produit.prixProduit} class="text-danger"> </span>
+				</div>
+				<div class="form-group">
+					<label class="control-label"> Date Création :</label>
+					<input type="date" name="dateCreation" class="form-control"th:value="${produit.dateCreation}"/>
+                      <span th:errors=${produit.dateCreation} class="text-danger"> </span>
+				</div>
+				<div>
+					<button type="submit" class="btn btn-primary">Ajouter</button>
+				</div>
+			</form>
+		</div>
+		<div th:if="${msg}">
+          <p th:text="'Message: '+${msg}"/>
+        </div>
+		<br/>
+		<br/>
+		<a href="ListeProduits" class="btn btn-info">Liste Produits</a>
+	</div>
+	</div>
+</body>
+</html>

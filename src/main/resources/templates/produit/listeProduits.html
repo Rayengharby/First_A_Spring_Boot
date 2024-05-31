@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="template">
+
+	<link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+<c:url value="/css/main.css" var="jstlCss" />
+<link href="${jstlCss}" rel="stylesheet" />
+<script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste Produits</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+<!-- Brand --> 
+<a class="navbar-brand" href="#">Gestion de produits</a>
+<!-- Links -->
+<ul class="navbar-nav">
+
+<!-- Dropdown -->
+<li class="nav-item dropdown">
+
+<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+Produits
+</a>
+<div class="dropdown-menu">
+<a class="dropdown-item" th:href="@{/showCreate}">Ajouter</a>
+<a class="dropdown-item" th:href="@{/ListeProduits}">Lister</a>
+</div>
+</li>
+</ul>
+
+</nav>
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-header">Liste des Produits</div>
+                
+            <form th:action="@{/ListeProduits}" method="get">
+    <div class="d-flex" role="search">
+        <input class="form-control me-2" type="text" placeholder="Chercher un Produit" aria-label="Search" name="nom" required>
+        <button class="btn btn-outline-success" type="submit">GO</button>
+    </div>
+</form>
+      
+      
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>ID</th><th>Nom Produit</th><th>Prix</th><th>Date Création</th><th>Suppression</th><th>Edition</th>
+                        </tr>
+                          <tr th:each="p:${produits}">
+                            <td th:text="${p.idProduit}"></td>
+                            <td th:text="${p.nomProduit}"></td>
+                            <td th:text="${p.prixProduit}"></td>
+                            <td><span th:text="${#dates.format(p.dateCreation, 'dd/MM/yyyy')}"></span></td>
+                           <td><a class="btn btn-danger" th:href="@{supprimerProduit(id=${p.idProduit},page=${currentPage},size=${size})}" onclick="return confirm('Etes-vous sûr ?')">Supprimer</a></td>
+                            <td><a th:href="@{modifierProduit(id=${p.idProduit})}" class="btn btn-success">Edit</a></td>
+                        </tr>
+                    </table>
+                    <ul class="nav nav-pills">
+<li th:each="page,status:${pages}">
+<a th:class="${status.index==currentPage?'btn btn-primary':'btn' }"th:href="@{ ListeProduits(page=${status.index}, size=${size} ) }"th:text="${status.index }"></a>
+</li>
+</ul>
+                </div>
+            </div>
+        </div>
+  </div>
+  
+</body>
+</html>
